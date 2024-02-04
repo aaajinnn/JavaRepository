@@ -1,4 +1,4 @@
-package day01_1; // 1. 패키지 선언문
+package day01; // 1. 패키지 선언문
 
 // 3. 클래스 선언문
 // public class 클래스명{ 명령문... }
