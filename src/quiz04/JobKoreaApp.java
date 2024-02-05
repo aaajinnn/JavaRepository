@@ -1,4 +1,4 @@
-package quiz04_1;
+package quiz04;
 
 // 구직자 or 구인회사 클래스를 별도
 public class JobKoreaApp {

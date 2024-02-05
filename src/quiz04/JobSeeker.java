@@ -1,4 +1,4 @@
-package quiz04_1;
+package quiz04;
 
 public class JobSeeker {
 	// 속성
