@@ -41,7 +41,7 @@ public class Person {
 	@Override
 	// public 반환타입 hashCode()
 	public int hashCode() {
-		System.out.println("name의 해시코드 : " + name.hashCode());
+//		System.out.println("name의 해시코드 : " + name.hashCode());
 		return name.hashCode() + age; // name의 hashCode를 int로 반환 + int age
 	}
 

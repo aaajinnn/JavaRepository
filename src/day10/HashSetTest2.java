@@ -44,9 +44,6 @@ public class HashSetTest2 {
 		for (Person p : set) {
 			System.out.println(p.getName() + " : " + p.getAge());
 		}
-//		System.out.println(p2);
-//		System.out.println(p4); // 해쉬값(주소값)이 서로 다르다.
-//		System.out.println(p2.equals(p4)); // false
 
 		// Person에서 hashCode()와 equals()를 오버라이드 후 다시 실행해보면
 		// 3명 저장, 박영희는 1명만 저장된 것을 확인 할 수 있다.(중복 저장 X)

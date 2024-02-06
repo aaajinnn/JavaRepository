@@ -31,6 +31,7 @@ public class LinkedListTest {
 
 		System.out.println("ArrayList에 걸린 시간 : " + gap + " ns");
 		System.out.println("list1.size() : " + list1.size());
+		System.out.println();
 
 		System.out.println("***************************************");
 
