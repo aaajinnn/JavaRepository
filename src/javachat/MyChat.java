@@ -33,6 +33,8 @@ public class MyChat extends JFrame implements ActionListener, Runnable { // 2
 	private Socket sock;
 	private BufferedReader in;
 	private PrintWriter out;
+
+	private boolean flag = false;
 	// *******************************
 
 	public MyChat() {
@@ -62,7 +64,7 @@ public class MyChat extends JFrame implements ActionListener, Runnable { // 2
 		tf.setFont(new Font("sans-serif", Font.BOLD, 18));
 		tf.setBorder(new TitledBorder("Message"));
 
-		bt = new JButton("입  력");
+		bt = new JButton("퇴   장");
 		bt.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		bt.setBounds(12, 577, 360, 40);
 		panel.add(bt);
@@ -98,26 +100,68 @@ public class MyChat extends JFrame implements ActionListener, Runnable { // 2
 			Thread listener = new Thread(this);
 			listener.start();
 		} catch (Exception e) {
-//			ta.setText("채팅 서버 연결 실패\n" + e + "\n");
+			ta.setText("채팅 서버 연결 실패\n" + e + "\n");
 		}
 	}// -------------------------
 
 	public void run() {
-
+		String serverMsg = "";
+		try {
+			while (!flag) {
+				serverMsg = in.readLine();
+				if (serverMsg == null)
+					return;
+				ta.append(serverMsg + "\n");
+				// 커서의 위치(스크롤바)를 ta의 끝으로 이동시키자
+				ta.setCaretPosition(ta.getText().length());
+			}
+		} catch (IOException e) {
+			ta.append("\n서버와 연결 끊김 : " + e);
+		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) { // 3
 		// 5
+		Object obj = e.getSource();
+		if (obj == tf) {
+			sendMsg();
+		} else if (obj == bt) {
+			exitChat();
+		}
+
+	}// ---------------------------
+
+	/** 서버에 메시지를 보내는 메서드 */
+	public void sendMsg() {
 		String input = tf.getText();
-//		ta.setText(ta.getText() + input + "\n");
-//		ta.append(input + "\n"); // 입력한 내용 덧붙이기
-
 		// 입력한 내용을 서버에 보내기
-
+		out.println(input);
 		tf.setText("");
 		tf.requestFocus();
-	}// ---------------------------
+	}
+
+	/** 퇴장처리하는 메서드 */
+	public void exitChat() {
+		String msg = "##[" + this.nickName + "님이 퇴장합니다.]##";
+		out.println(msg);
+		ta.setText("");
+		tf.setText("");
+		tf.setEnabled(false); // 입력박스 비활성화
+		// 서버 메시지 듣는 스레드 중지시키기
+		try {
+			flag = true;
+			// 자원반납
+			if (in != null)
+				in.close();
+			if (out != null)
+				out.close();
+			if (sock != null)
+				sock.close();
+		} catch (Exception e) {
+			System.out.println("퇴장처리중 예외 : " + e);
+		}
+	}
 
 	public static void main(String[] args) {
 		new MyChat();
